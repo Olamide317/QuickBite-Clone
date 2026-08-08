@@ -8,7 +8,7 @@ export default function IsClose() {
     <div className="flex flex-col min-h-screen bg-[#fafafa]">
       <UserNavbar />
       
-      <main className="flex-grow">
+      <main className="grow">
         <HeroIsOpen />
         <IsClosedProducts />
       </main>

@@ -4,7 +4,7 @@ import { HiMenuAlt3, HiOutlineShoppingBag, HiChevronDown } from "react-icons/hi"
 import { HiOutlineWallet } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
 
-export default function UserNavbar() {
+export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartCount here!
   const [isOpen, setIsOpen] = useState(false); // Mobile menu state
   const [dropdownOpen, setDropdownOpen] = useState(false); // Profile dropdown state
   const dropdownRef = useRef(null);
@@ -83,12 +83,13 @@ export default function UserNavbar() {
           <Link 
             to="/cart" 
             className="text-[#3A414D] hover:text-[#ff7800] transition-colors p-2 rounded-full hover:bg-gray-100 relative flex items-center justify-center" 
-            title="Shopping Cart"
           >
             <HiOutlineShoppingBag size={22} />
-            <span className="absolute top-0 right-0 bg-[#ff7800] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
-              2
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute top-0 right-0 bg-[#ff7800] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                {cartCount}
+              </span>
+            )}
           </Link>
 
           {/* 3. Points / Currency Abbreviation (GC) */}
@@ -102,7 +103,6 @@ export default function UserNavbar() {
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center space-x-2 focus:outline-none group p-1 rounded-full hover:bg-gray-100 transition-colors"
             >
-              {/* Circular profile photo of a man with glasses and a beard */}
               <img 
                 src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" 
                 alt="User Avatar" 
@@ -111,7 +111,6 @@ export default function UserNavbar() {
               <HiChevronDown size={14} className={`text-[#3A414D] transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
             </button>
 
-            {/* Dropdown Menu Box */}
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50 animate-fadeIn">
                 <Link
@@ -151,9 +150,11 @@ export default function UserNavbar() {
 
           <Link to="/cart" className="text-[#3A414D] relative p-1">
             <HiOutlineShoppingBag size={22} />
-            <span className="absolute -top-1 -right-1 bg-[#ff7800] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-              2
-            </span>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-[#ff7800] text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
           </Link>
 
           <button

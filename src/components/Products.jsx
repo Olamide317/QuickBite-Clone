@@ -5,45 +5,10 @@ import Address from "./Address";
 import Order from "./Order";
 import { categoryPills, menuItemsData } from "../data/restaurantData";
 
-export default function Products() {
+export default function Products({ cartItems, onAddToCart, onUpdateQuantity, onRemoveItem, onClearCart }) {
   const [activeTab, setActiveTab] = useState("Menu");
   const [activePill, setActivePill] = useState("Popular");
   const [showAllMenu, setShowAllMenu] = useState(false);
-
-  // 1. STATE: Track items added to the cart
-  const [cartItems, setCartItems] = useState([]);
-
-  // 2. FUNCTION: Handle clicking "+ Add"
-  const handleAddToCart = (item) => {
-    setCartItems(prevCart => {
-      const existingItem = prevCart.find(cartItem => cartItem.id === item.id);
-      if (existingItem) {
-        return prevCart.map(cartItem =>
-          cartItem.id === item.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
-        );
-      }
-      return [...prevCart, { ...item, quantity: 1 }];
-    });
-  };
-
-  // 3. FUNCTIONS: Handlers for updating quantity, removing items, and clearing cart
-  const handleUpdateQuantity = (id, newQuantity) => {
-    if (newQuantity <= 0) {
-      handleRemoveItem(id);
-      return;
-    }
-    setCartItems(prevCart =>
-      prevCart.map(item => item.id === id ? { ...item, quantity: newQuantity } : item)
-    );
-  };
-
-  const handleRemoveItem = (id) => {
-    setCartItems(prevCart => prevCart.filter(item => item.id !== id));
-  };
-
-  const handleClearCart = () => {
-    setCartItems([]);
-  };
 
   const categoryFiltered = menuItemsData.filter(item => item.category === activePill);
   const filteredItems = categoryFiltered.filter(item => {
@@ -54,7 +19,7 @@ export default function Products() {
   return (
     <section className="py-12 w-full bg-[#F8F9FA]">
       <div className="w-full px-6 sm:px-12">
-
+        
         {/* Top Tabs */}
         <div className="flex border-b border-gray-200 mb-8 space-x-8 font-heading">
           <button
@@ -66,7 +31,7 @@ export default function Products() {
             Menu
             {activeTab === "Menu" && <span className="absolute bottom-0 left-0 w-full h-0.5 bg-[#ff7800]" />}
           </button>
-
+          
           <button
             onClick={() => setActiveTab("About")}
             className={`pb-3 font-bold text-base transition-colors relative ${
@@ -141,9 +106,9 @@ export default function Products() {
                       </span>
                     </div>
 
-                    {/* "+ Add" Button */}
+                    {/* Use onAddToCart prop */}
                     <button
-                      onClick={() => handleAddToCart(item)}
+                      onClick={() => onAddToCart(item)}
                       className="bg-[#ff7800] hover:bg-[#e06a00] text-white font-medium text-xs sm:text-sm px-5 py-2.5 rounded-lg transition-all shadow-sm whitespace-nowrap shrink-0 active:scale-95"
                     >
                       + Add
@@ -167,9 +132,9 @@ export default function Products() {
             </div>
 
             {/* RIGHT COLUMN: Dynamic Order Summary Sidebar */}
-           <div className="lg:col-span-6 sticky top-28">
+            <div className="lg:col-span-6 sticky top-28">
               <div className="max-h-[calc(100vh-140px)] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-300 flex flex-col space-y-4">
-                
+
                 {cartItems.length === 0 ? (
                   <div className="bg-white rounded-2xl py-8 px-6 border border-gray-100 shadow-sm flex flex-col items-center text-center justify-center min-h-[300px]">
                     <h3 className="text-lg sm:text-xl font-bold text-[#374151] font-heading mb-3">
@@ -184,9 +149,9 @@ export default function Products() {
                     <Address />
                     <Order 
                       cartItems={cartItems}
-                      onUpdateQuantity={handleUpdateQuantity}
-                      onRemoveItem={handleRemoveItem}
-                      onClearCart={handleClearCart}
+                      onUpdateQuantity={onUpdateQuantity}
+                      onRemoveItem={onRemoveItem}
+                      onClearCart={onClearCart}
                     />
                   </div>
                 )}
