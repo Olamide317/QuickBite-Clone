@@ -8,6 +8,8 @@ import TrackOrder from "./pages/TrackOrder";
 import RestaurantPage from "./pages/RestaurantPage";
 import Cart from "./pages/Cart";
 import CheckOut from "./pages/CheckOut";
+import Auth from "./pages/Auth";
+import Login from "./pages/Login";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
@@ -95,6 +97,10 @@ function App() {
                 />
               }
             />
+
+            <Route path="/signup" element={<Auth />} />
+            <Route path="/login" element={<Auth />} />
+            <Route path="/login" element={<Login />} />
           </Routes>
         </main>
       </div>
