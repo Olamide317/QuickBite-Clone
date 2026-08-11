@@ -1,16 +1,26 @@
+import Navbar from "../components/Navbar";
+import UserNavbar from "../components/UserNavbar";
+import Footer from "../components/Footer";
 import RestaurantHero from "../components/RestaurantHero";
 import AllRestaurants from "../components/AllRestaurants";
 
-export default function Restaurants() {
+export default function Restaurants({ isLoggedIn, totalCartCount, onLogout }) {
   return (
-    <div className="bg-[#fafafa] min-h-screen pb-16">
+    <div className="flex flex-col min-h-screen bg-[#fafafa]">
       
-      {/* Modular Hero Component */}
-      <RestaurantHero />
+      {/* Dynamically swap navbar
+      {isLoggedIn ? (
+        <UserNavbar cartCount={totalCartCount} onLogout={onLogout} />
+      ) : (
+        <Navbar />
+      )} */}
 
-      {/* Modular Restaurant Listing Grid Component */}
-      <AllRestaurants />
+      <main className="flex-grow pb-16">
+        <RestaurantHero />
+        <AllRestaurants />
+      </main>
 
+      {/* <Footer /> */}
     </div>
   );
 }

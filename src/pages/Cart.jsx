@@ -3,10 +3,10 @@ import IsCloseFooter from "../components/IsCloseFooter";
 import EmptyCart from "../components/EmptyCart";
 import FilledCart from "../components/FilledCart";
 
-export default function Cart({ cartItems, onUpdateQuantity, onRemoveItem, onClearCart, totalCartCount }) {
+export default function Cart({ isLoggedIn, cartItems, onUpdateQuantity, onRemoveItem, onClearCart, totalCartCount, onLogout }) {
   return (
     <div className="flex flex-col min-h-screen bg-[#fafafa]">
-      <UserNavbar cartCount={totalCartCount} />
+      <UserNavbar cartCount={totalCartCount} onLogout={onLogout} />
 
       <main className="flex-grow">
         {cartItems.length === 0 ? (

@@ -117,9 +117,9 @@ export default function Order({ cartItems, onUpdateQuantity, onRemoveItem, onCle
         <Link to="/cart" className="w-full bg-[#ff7800] hover:bg-[#e06a00] text-white font-semibold py-2.5 rounded-lg transition-all shadow-sm text-xs sm:text-sm font-heading text-center">
           View Cart ({totalQuantity})
         </Link>
-        <button className="w-full bg-orange-50 hover:bg-orange-100 text-[#ff7800] border border-[#ff7800]/30 font-semibold py-2.5 rounded-lg transition-all text-xs sm:text-sm font-heading">
+        <Link to="/checkout" className="w-full bg-orange-50 hover:bg-orange-100 text-[#ff7800] border border-[#ff7800]/30 font-semibold py-2.5 rounded-lg transition-all text-xs sm:text-sm font-heading text-center">
           Order Now
-        </button>
+        </Link>
       </div>
 
     </div>

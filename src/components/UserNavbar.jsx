@@ -4,7 +4,7 @@ import { HiMenuAlt3, HiOutlineShoppingBag, HiChevronDown } from "react-icons/hi"
 import { HiOutlineWallet } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
 
-export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartCount here!
+export default function UserNavbar({ cartCount = 0, onLogout }) {
   const [isOpen, setIsOpen] = useState(false); // Mobile menu state
   const [dropdownOpen, setDropdownOpen] = useState(false); // Profile dropdown state
   const dropdownRef = useRef(null);
@@ -30,7 +30,7 @@ export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartC
   return (
     <nav className="bg-[#fafafa]/90 backdrop-blur-md shadow-sm border-b border-gray-200/60 px-6 sm:px-8 py-4 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        
+
         {/* Left Side: Burger Logo + Split Name */}
         <Link to="/" onClick={handleLinkClick} className="flex items-center space-x-3 group">
           <span className="text-3xl">🍔</span>
@@ -51,15 +51,13 @@ export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartC
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative py-1 font-medium transition-colors duration-200 group ${
-                  active ? "text-[#ff7800]" : "text-black hover:text-[#ff7800]"
-                }`}
+                className={`relative py-1 font-medium transition-colors duration-200 group ${active ? "text-[#ff7800]" : "text-black hover:text-[#ff7800]"
+                  }`}
               >
                 {item.name}
                 <span
-                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-[#ff7800] transition-transform duration-300 origin-left ${
-                    active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                  }`}
+                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-[#ff7800] transition-transform duration-300 origin-left ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                    }`}
                 />
               </Link>
             );
@@ -68,10 +66,10 @@ export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartC
 
         {/* Right Side Utility Navigation Widget (Desktop View) */}
         <div className="hidden md:flex items-center space-x-4">
-          
+
           {/* 1. Wallet Balance Badge */}
-          <Link 
-            to="/wallet" 
+          <Link
+            to="/wallet"
             className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200/80 text-[#3A414D] px-3.5 py-1.5 rounded-full transition-colors shadow-sm text-sm font-medium font-sans"
             title="Wallet Balance"
           >
@@ -80,9 +78,9 @@ export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartC
           </Link>
 
           {/* 2. Shopping Cart Icon */}
-          <Link 
-            to="/cart" 
-            className="text-[#3A414D] hover:text-[#ff7800] transition-colors p-2 rounded-full hover:bg-gray-100 relative flex items-center justify-center" 
+          <Link
+            to="/cart"
+            className="text-[#3A414D] hover:text-[#ff7800] transition-colors p-2 rounded-full hover:bg-gray-100 relative flex items-center justify-center"
           >
             <HiOutlineShoppingBag size={22} />
             {cartCount > 0 && (
@@ -103,9 +101,9 @@ export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartC
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center space-x-2 focus:outline-none group p-1 rounded-full hover:bg-gray-100 transition-colors"
             >
-              <img 
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop" 
-                alt="User Avatar" 
+              <img
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=150&auto=format&fit=crop"
+                alt="User Avatar"
                 className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm"
               />
               <HiChevronDown size={14} className={`text-[#3A414D] transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
@@ -128,13 +126,15 @@ export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartC
                   Wallet
                 </Link>
                 <div className="border-t border-gray-100 my-1" />
-                <Link
-                  to="/logout"
-                  onClick={handleLinkClick}
-                  className="block px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors font-sans font-medium"
+                <button
+                  onClick={() => {
+                    handleLinkClick();
+                    if (onLogout) onLogout();
+                  }}
+                  className="w-full text-left block px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition-colors font-sans font-medium bg-transparent border-none cursor-pointer"
                 >
                   Logout
-                </Link>
+                </button>
               </div>
             )}
           </div>
@@ -177,19 +177,27 @@ export default function UserNavbar({ cartCount = 0 }) { // <-- Destructure cartC
             { name: "Track Order", path: "/track-order" },
             { name: "Account", path: "/profile" },
             { name: "Wallet", path: "/wallet" },
-            { name: "Logout", path: "/logout" },
           ].map((item, idx) => (
             <Link
               key={idx}
               to={item.path}
               onClick={handleLinkClick}
-              className={`font-medium py-2.5 px-3 rounded-xl transition-all duration-200 hover:text-[#ff7800] hover:bg-orange-50/60 ${
-                item.name === "Logout" ? "text-red-600 hover:bg-red-50" : "text-gray-700"
-              }`}
+              className="font-medium py-2.5 px-3 rounded-xl transition-all duration-200 hover:text-[#ff7800] hover:bg-orange-50/60 text-gray-700"
             >
               {item.name}
             </Link>
           ))}
+
+          {/* Separate handler for Mobile Logout */}
+          <button
+            onClick={() => {
+              handleLinkClick();
+              if (onLogout) onLogout();
+            }}
+            className="w-full text-left font-medium py-2.5 px-3 rounded-xl transition-all duration-200 text-red-600 hover:bg-red-50 bg-transparent border-none cursor-pointer"
+          >
+            Logout
+          </button>
         </div>
       )}
     </nav>

@@ -4,7 +4,7 @@ import { FiMail, FiLock, FiUser, FiPhone } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 
-export default function Auth() {
+export default function Auth({ setIsLoggedIn }) {
   const [isSignup, setIsSignup] = useState(true); // Default to Sign Up as per prompt
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
@@ -15,17 +15,24 @@ export default function Auth() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (isSignup && password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
+    if (isSignup) {
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+      // Redirect to OTP verification screen on successful sign up
+      navigate("/otp");
+    } else {
+      // Log straight in if signing in
+      setIsLoggedIn(true);
+      alert("Logged in successfully!");
+      navigate("/");
     }
-    alert(isSignup ? "Account created successfully!" : "Logged in successfully!");
-    navigate("/");
   };
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] flex flex-col justify-center py-12 px-6 sm:px-8 font-sans">
-      
+
       {/* 1. TOP NAVIGATION: Brand Logo */}
       <div className="absolute top-6 left-6 sm:left-12">
         <Link to="/" className="inline-flex items-center space-x-2.5 group">
@@ -39,9 +46,9 @@ export default function Auth() {
 
       {/* CENTERED REGISTRATION CARD CONTAINER */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md mt-8 sm:mt-0">
-        
+
         <div className="bg-white py-8 px-6 sm:px-10 shadow-sm rounded-[16px] border border-gray-100">
-          
+
           {/* HEADER AREA */}
           <div className="text-center mb-8">
             <h2 className="text-[22px] font-bold text-[#2B2D42] font-heading mb-1">
@@ -54,7 +61,7 @@ export default function Auth() {
 
           {/* REGISTRATION FORM */}
           <form onSubmit={handleSubmit} className="space-y-4">
-            
+
             {isSignup && (
               <div>
                 <label className="block text-xs font-bold text-[#374151] mb-1.5 font-heading">
@@ -62,12 +69,12 @@ export default function Auth() {
                 </label>
                 <div className="relative">
                   <FiUser className="absolute left-4 top-3.5 text-gray-400" />
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    required 
-                    placeholder="Full name" 
+                    required
+                    placeholder="Full name"
                     className="w-full bg-[#F8F9FA] border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#ff7800]"
                   />
                 </div>
@@ -80,12 +87,12 @@ export default function Auth() {
               </label>
               <div className="relative">
                 <FiMail className="absolute left-4 top-3.5 text-gray-400" />
-                <input 
-                  type="email" 
+                <input
+                  type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  required 
-                  placeholder="Email" 
+                  required
+                  placeholder="Email"
                   className="w-full bg-[#F8F9FA] border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#ff7800]"
                 />
               </div>
@@ -98,12 +105,12 @@ export default function Auth() {
                 </label>
                 <div className="relative">
                   <FiPhone className="absolute left-4 top-3.5 text-gray-400" />
-                  <input 
-                    type="tel" 
+                  <input
+                    type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    required 
-                    placeholder="Phone no." 
+                    required
+                    placeholder="Phone no."
                     className="w-full bg-[#F8F9FA] border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#ff7800]"
                   />
                 </div>
@@ -116,12 +123,12 @@ export default function Auth() {
               </label>
               <div className="relative">
                 <FiLock className="absolute left-4 top-3.5 text-gray-400" />
-                <input 
-                  type="password" 
+                <input
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  required 
-                  placeholder="At least 8 characters" 
+                  required
+                  placeholder="At least 8 characters"
                   minLength="8"
                   className="w-full bg-[#F8F9FA] border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#ff7800]"
                 />
@@ -131,16 +138,16 @@ export default function Auth() {
             {isSignup && (
               <div>
                 <label className="block text-xs font-bold text-[#374151] mb-1.5 font-heading">
-                  Comfirm Password
+                  Confirm Password
                 </label>
                 <div className="relative">
                   <FiLock className="absolute left-4 top-3.5 text-gray-400" />
-                  <input 
-                    type="password" 
+                  <input
+                    type="password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    required 
-                    placeholder="Comfirm Password" 
+                    required
+                    placeholder="Confirm Password"
                     className="w-full bg-[#F8F9FA] border border-gray-200 rounded-xl pl-11 pr-4 py-3 text-sm text-gray-800 placeholder-gray-400 outline-none focus:border-[#ff7800]"
                   />
                 </div>
@@ -174,7 +181,7 @@ export default function Auth() {
 
           {/* SOCIAL AUTHENTICATION SECTION */}
           <div className="mt-6">
-            
+
             {/* Divider */}
             <div className="relative flex py-2 items-center">
               <div className="flex-grow border-t border-gray-200"></div>
@@ -184,7 +191,7 @@ export default function Auth() {
 
             {/* SSO BUTTON STACK */}
             <div className="mt-4 space-y-3">
-              
+
               <button
                 type="button"
                 className="w-full flex items-center justify-center space-x-3 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-4 rounded-xl transition-all shadow-sm text-xs sm:text-sm font-sans"

@@ -3,10 +3,10 @@ import HeroIsOpen from "../components/HeroIsOpen";
 import IsClosedProducts from "../components/IsClosedProducts";
 import IsCloseFooter from "../components/IsCloseFooter";
 
-export default function IsClose() {
+export default function IsClose({ onLogout }) {
   return (
     <div className="flex flex-col min-h-screen bg-[#fafafa]">
-      <UserNavbar />
+      <UserNavbar onLogout={onLogout} />
       
       <main className="grow">
         <HeroIsOpen />

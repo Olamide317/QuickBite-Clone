@@ -8,8 +8,9 @@ import { FaMoneyBillWave } from "react-icons/fa";
 import UserNavbar from "../components/UserNavbar";
 import IsCloseFooter from "../components/IsCloseFooter";
 
-export default function CheckOut({ cartItems, totalCartCount }) {
+export default function CheckOut({ cartItems, totalCartCount, onPlaceOrder, onLogout }) {
     const navigate = useNavigate();
+    const hasItems = cartItems.length > 0;
 
     // Payment method tab state ("card", "wallet", "cash")
     const [paymentMethod, setPaymentMethod] = useState("card");
@@ -22,13 +23,10 @@ export default function CheckOut({ cartItems, totalCartCount }) {
     const [expiryError, setExpiryError] = useState("");
     const [cvcError, setCvcError] = useState("");
 
-    // Calculations based on live cart items (falling back gracefully if empty)
-    const subtotal = cartItems.length > 0
-        ? cartItems.reduce((acc, item) => {
-            const numericPrice = parseInt(item.price.replace(/[^\d]/g, ''), 10);
-            return acc + (numericPrice * item.quantity);
-        }, 0)
-        : 10100; // Fallback match to prompt if accessed directly
+    const subtotal = cartItems.reduce((acc, item) => {
+        const numericPrice = parseInt(item.price.replace(/[^\d]/g, ''), 10);
+        return acc + (numericPrice * item.quantity);
+    }, 0);
 
     const deliveryFee = 1000;
     const serviceCharge = 300;
@@ -36,38 +34,43 @@ export default function CheckOut({ cartItems, totalCartCount }) {
 
     const handlePlaceOrder = (e) => {
         e.preventDefault();
+        if (!hasItems) return;
 
-        let isValid = true;
+        if (paymentMethod === "card") {
+            let isValid = true;
 
-        // Clean card number input (strip spaces to check length)
-        const cleanCardNum = cardNumber.replace(/\s+/g, '');
-        if (cleanCardNum.length !== 16 || isNaN(cleanCardNum)) {
-            setCardError("Invalid card number. Must be exactly 16 digits.");
-            isValid = false;
+            const cleanCardNum = cardNumber.replace(/\s+/g, '');
+            if (cleanCardNum.length !== 16 || isNaN(cleanCardNum)) {
+                setCardError("Invalid card number. Must be exactly 16 digits.");
+                isValid = false;
+            } else {
+                setCardError("");
+            }
+
+            const expiryRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
+            if (!expiryRegex.test(expiry)) {
+                setExpiryError("Invalid expiry date. Use MM/YY format (e.g., 08/28).");
+                isValid = false;
+            } else {
+                setExpiryError("");
+            }
+
+            if (cvc.length < 3 || cvc.length > 4 || isNaN(cvc)) {
+                setCvcError("Invalid CVC. Must be 3 or 4 digits.");
+                isValid = false;
+            } else {
+                setCvcError("");
+            }
+
+            if (!isValid) return;
+            alert("Card details verified! Order placed successfully.");
         } else {
-            setCardError("");
+            alert(paymentMethod === "wallet" ? "Order placed using wallet balance!" : "Order placed with cash on delivery!");
         }
 
-        // Validate Expiry (MM/YY format check)
-        const expiryRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/;
-        if (!expiryRegex.test(expiry)) {
-            setExpiryError("Invalid expiry date. Use MM/YY format (e.g., 08/28).");
-            isValid = false;
-        } else {
-            setExpiryError("");
+        if (onPlaceOrder) {
+            onPlaceOrder(); // Clears cart and stores completed order
         }
-
-        // Validate CVC (3 or 4 digits)
-        if (cvc.length < 3 || cvc.length > 4 || isNaN(cvc)) {
-            setCvcError("Invalid CVC. Must be 3 or 4 digits.");
-            isValid = false;
-        } else {
-            setCvcError("");
-        }
-
-        if (!isValid) return; // Stop submission if errors exist
-
-        alert("Card details verified! Order placed successfully.");
         navigate("/track-order");
     };
 
@@ -75,7 +78,7 @@ export default function CheckOut({ cartItems, totalCartCount }) {
         <div className="flex flex-col min-h-screen bg-[#F8F9FA] font-sans">
 
             {/* Unified User Navbar */}
-            <UserNavbar cartCount={totalCartCount} />
+            <UserNavbar cartCount={totalCartCount} onLogout={onLogout} />
 
             <main className="flex-grow py-8 px-6 sm:px-12">
                 <div className="max-w-7xl mx-auto">
@@ -240,7 +243,7 @@ export default function CheckOut({ cartItems, totalCartCount }) {
                                             </div>
                                         </div>
 
-                                        {/* Form CTA (Continue button with validation logic) */}
+                                        {/* Form CTA */}
                                         <div className="pt-4">
                                             <button
                                                 type="submit"
@@ -280,7 +283,7 @@ export default function CheckOut({ cartItems, totalCartCount }) {
 
                                 {/* Item Breakdown List */}
                                 <div className="flex flex-col space-y-3 mb-6 text-sm text-gray-600 max-h-48 overflow-y-auto pr-1">
-                                    {cartItems.length > 0 ? (
+                                    {hasItems ? (
                                         cartItems.map((item) => {
                                             const itemTotal = parseInt(item.price.replace(/[^\d]/g, ''), 10) * item.quantity;
                                             return (
@@ -291,20 +294,7 @@ export default function CheckOut({ cartItems, totalCartCount }) {
                                             );
                                         })
                                     ) : (
-                                        <>
-                                            <div className="flex justify-between items-center">
-                                                <span>2x Refuel Meal</span>
-                                                <span className="font-semibold text-gray-800">₦9,600</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span>1x ChickWhizz</span>
-                                                <span className="font-semibold text-gray-800">₦500</span>
-                                            </div>
-                                            <div className="flex justify-between items-center">
-                                                <span>1x Chief Burger</span>
-                                                <span className="font-semibold text-gray-800">₦500</span>
-                                            </div>
-                                        </>
+                                        <p className="text-xs text-gray-400 italic">Your cart is empty.</p>
                                     )}
                                 </div>
 
@@ -334,7 +324,8 @@ export default function CheckOut({ cartItems, totalCartCount }) {
                                 <div className="flex flex-col space-y-3">
                                     <button
                                         onClick={handlePlaceOrder}
-                                        className="w-full bg-[#ff7800] hover:bg-[#e06a00] text-white font-bold py-3.5 rounded-xl transition-all shadow-md font-heading text-sm"
+                                        disabled={!hasItems}
+                                        className="w-full bg-[#ff7800] hover:bg-[#e06a00] disabled:bg-gray-300 disabled:cursor-not-allowed text-white font-bold py-3.5 rounded-xl transition-all shadow-md font-heading text-sm"
                                     >
                                         Place order
                                     </button>

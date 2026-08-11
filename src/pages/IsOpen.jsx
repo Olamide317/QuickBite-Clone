@@ -1,14 +1,19 @@
+import Navbar from "../components/Navbar";
 import UserNavbar from "../components/UserNavbar";
 import HeroIsOpen from "../components/HeroIsOpen";
 import Products from "../components/Products";
 import Footer from "../components/Footer";
 
-export default function IsOpen({ cartItems, onAddToCart, onUpdateQuantity, onRemoveItem, onClearCart, totalCartCount }) {
+export default function IsOpen({ isLoggedIn, cartItems, onAddToCart, onUpdateQuantity, onRemoveItem, onClearCart, totalCartCount, onLogout }) {
   return (
     <div className="flex flex-col min-h-screen bg-[#fafafa]">
-
-      {/* Logged-In User Header */}
-      <UserNavbar cartCount={totalCartCount} />
+      
+      {/* Dynamically render UserNavbar if logged in, else public Navbar */}
+      {isLoggedIn ? (
+        <UserNavbar cartCount={totalCartCount} onLogout={onLogout} />
+      ) : (
+        <Navbar />
+      )}
 
       {/* Main Content Area */}
       <main className="grow">
@@ -29,9 +34,7 @@ export default function IsOpen({ cartItems, onAddToCart, onUpdateQuantity, onRem
 
       </main>
 
-      {/* Footer */}
       <Footer />
-
     </div>
   );
 }

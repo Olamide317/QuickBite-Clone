@@ -4,13 +4,14 @@ import { FiMail, FiLock } from "react-icons/fi";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 
-export default function Login() {
+export default function Login({ setIsLoggedIn }) {
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
+    setIsLoggedIn(true); // Logged in!
     alert("Logged in successfully!");
     navigate("/");
   };
@@ -87,7 +88,7 @@ export default function Login() {
                 type="submit"
                 className="w-full bg-[#ff7800] hover:bg-[#e06a00] text-white font-bold py-3.5 rounded-lg transition-all shadow-md font-heading text-sm"
               >
-                Sign Up
+                Sign In
               </button>
             </div>
 
@@ -95,12 +96,12 @@ export default function Login() {
 
           {/* NAVIGATION LINK (Redirect to Sign Up) */}
           <div className="mt-6 text-center text-sm font-sans">
-            <span className="text-gray-500">Already have an account? </span>
+            <span className="text-gray-500">Don't have an account? </span>
             <Link
               to="/signup"
               className="font-bold text-[#ff7800] hover:underline focus:outline-none"
             >
-              Sign in
+              Sign up
             </Link>
           </div>
 
