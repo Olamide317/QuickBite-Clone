@@ -55,7 +55,7 @@ export default function Navbar() {
         {/* Right Side Actions (Desktop) */}
         <div className="hidden md:flex items-center space-x-6">
           <Link 
-            to="/vendors" 
+            to="/#" 
             className="text-gray-700 font-medium transition-colors duration-200 hover:text-[#ff7800]"
           >
             For Vendors

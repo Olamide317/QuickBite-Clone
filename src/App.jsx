@@ -14,6 +14,7 @@ import Auth from "./pages/Auth";
 import Login from "./pages/Login";
 import OTP from "./pages/OTP";
 import Account from "./pages/Account";
+import Wallet from "./pages/Wallet";
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
@@ -82,7 +83,7 @@ function App() {
     <Router>
       <ScrollToTop />
       <div className="flex flex-col min-h-screen bg-[#fafafa]">
-        <main className="flex-grow">
+        <main className="grow">
           <Routes>
             {/* Home Page with Dynamic Navbar */}
             <Route path="/" element={<><ActiveNavbar /><Home /><Footer /></>} />
@@ -176,6 +177,18 @@ function App() {
               element={
                 isLoggedIn ? (
                   <Account totalCartCount={totalCartCount} onLogout={handleLogout} />
+                ) : (
+                  <Navigate to="/login" replace />
+                )
+              }
+            />
+
+            {/* Wallet dashboard */}
+            <Route
+              path="/wallet"
+              element={
+                isLoggedIn ? (
+                  <Wallet totalCartCount={totalCartCount} onLogout={handleLogout} />
                 ) : (
                   <Navigate to="/login" replace />
                 )

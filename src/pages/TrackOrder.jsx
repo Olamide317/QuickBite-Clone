@@ -19,7 +19,7 @@ export default function TrackOrder({ cartItems = [], orderId: initialOrderId = "
     return acc + (numericPrice * item.quantity);
   }, 0);
 
-  const deliveryFee = 500;
+  const deliveryFee = 1000;
   const serviceCharge = 300;
   const grandTotal = subtotal + deliveryFee + serviceCharge;
 

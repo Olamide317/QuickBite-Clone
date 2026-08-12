@@ -1,14 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { 
   FiUser, FiMapPin, FiCreditCard, FiBell, FiShield, 
-  FiPlus, FiTrash2, FiCheck 
+  FiPlus, FiTrash2, FiArrowLeft, FiLogOut, FiArrowRight 
 } from "react-icons/fi";
 import UserNavbar from "../components/UserNavbar";
 import IsCloseFooter from "../components/IsCloseFooter";
 
 export default function Account({ totalCartCount, onLogout }) {
-  // Active Tab state: "account", "addresses", "payment", "alerts", "security"
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("account");
 
   // --- 1. Account Tab State ---
@@ -48,7 +48,7 @@ export default function Account({ totalCartCount, onLogout }) {
   });
 
   const toggleAlert = (key) => {
-    setAlerts(prev => ({ ...prev, [key]: !prev.key }));
+    setAlerts(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
   // --- 5. Security Tab State ---
@@ -83,56 +83,55 @@ export default function Account({ totalCartCount, onLogout }) {
       {/* Global User Navbar */}
       <UserNavbar cartCount={totalCartCount} onLogout={onLogout} />
 
-      <main className="flex-grow py-10 px-6 sm:px-12">
-        <div className="max-w-5xl mx-auto">
+      <main className="flex-grow py-8 px-6 sm:px-12">
+        <div className="max-w-8xl mx-auto">
           
-          {/* USER PROFILE HEADER BANNER */}
-          <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm mb-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="flex items-center space-x-4">
-              <img 
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" 
-                alt="Godfrey Chibuenyim" 
-                className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-cover border-2 border-[#ff7800] shadow-sm"
-              />
-              <div>
-                <h1 className="text-xl sm:text-2xl font-bold text-[#2B2D42] font-heading">
-                  {fullName}
-                </h1>
-                <p className="text-sm text-gray-500 font-sans">{email}</p>
-                <p className="text-xs text-gray-400 font-sans mt-0.5">{phone}</p>
-              </div>
-            </div>
+          {/* TOP NAVIGATION & PROFILE SUMMARY */}
+          <div className="mb-6">
+            {/* Top-Left Back Navigation Link */}
+            <button 
+              onClick={() => navigate(-1)}
+              className="inline-flex items-center space-x-2 text-gray-600 hover:text-[#ff7800] font-semibold text-sm transition-colors mb-4"
+            >
+              <FiArrowLeft size={16} />
+              <span>Back</span>
+            </button>
 
-            {/* Become a Vendor Promotion Button */}
-            <div className="bg-orange-50 border border-orange-200/60 rounded-2xl p-4 flex items-center justify-between gap-4 w-full md:w-auto">
-              <div>
-                <p className="text-xs font-bold text-[#ff7800] font-heading">Partner with QuickBite</p>
-                <p className="text-[11px] text-gray-600 font-sans">Grow your restaurant sales today</p>
+            {/* User Profile Preview */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="flex items-center space-x-4">
+                <img 
+                  src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200&auto=format&fit=crop" 
+                  alt="Godfrey Chibuenyim" 
+                  className="w-16 h-16 rounded-full object-cover border-2 border-white shadow-sm"
+                />
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-bold text-[#2B2D42] font-heading">
+                    {fullName}
+                  </h1>
+                  <p className="text-xs sm:text-sm text-gray-500 font-sans mt-0.5">
+                    {email} &nbsp;·&nbsp; {phone}
+                  </p>
+                </div>
               </div>
-              <Link 
-                to="/vendors" 
-                className="bg-[#ff7800] hover:bg-[#e06a00] text-white font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-sm whitespace-nowrap"
-              >
-                Become a vendor
-              </Link>
             </div>
           </div>
 
-          {/* TABBED NAVIGATION BAR */}
-          <div className="flex items-center space-x-2 overflow-x-auto pb-4 mb-8 scrollbar-none border-b border-gray-200">
+          {/* SUB-NAVIGATION BAR (Segmented Pill Container) */}
+          <div className="bg-[#fbede1] rounded-4xl flex items-center space-x-1 mb-8 overflow-x-auto scrollbar-none">
             {tabs.map((tab) => {
               const isActive = activeTab === tab.id;
               return (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all whitespace-nowrap shrink-0 ${
+                  className={`flex-1 flex items-center justify-center space-x-2 py-2.5 px-4 rounded-4xl text-xs sm:text-sm font-bold transition-all whitespace-nowrap shrink-0 ${
                     isActive
-                      ? "bg-[#ff7800] text-white shadow-sm"
-                      : "bg-white text-gray-600 border border-gray-200 hover:border-gray-300 hover:bg-gray-50"
+                      ? "bg-white text-gray-900 shadow-sm border border-[#ff7800]"
+                      : "text-gray-500 hover:text-gray-800"
                   }`}
                 >
-                  {tab.icon}
+                  <span className={isActive ? "text-[#ff7800]" : "text-gray-400"}>{tab.icon}</span>
                   <span>{tab.label}</span>
                 </button>
               );
@@ -194,29 +193,29 @@ export default function Account({ totalCartCount, onLogout }) {
                     </div>
                   </div>
 
-                  <div className="pt-2">
+                  <div className="pt-2 text-right">
                     <button 
                       onClick={() => alert("Changes saved successfully!")}
-                      className="bg-[#ff7800] hover:bg-[#e06a00] text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md text-sm font-heading"
+                      className="bg-[#ff7800] hover:bg-[#e06a00] text-white font-bold px-28 py-3 rounded-xl transition-all shadow-md text-sm font-heading"
                     >
                       Save change
                     </button>
                   </div>
                 </div>
 
-                {/* Second Card: System Preferences */}
+                {/* Second Card: System Preferences (Stacked Inputs with Inline Labels) */}
                 <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm space-y-6">
                   <h3 className="text-lg font-bold text-[#374151] font-heading pb-3 border-b border-gray-100">
-                    Preferences & Region
+                    Personal information
                   </h3>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-                    <div>
-                      <label className="block text-xs font-bold text-[#374151] mb-1.5 font-heading">Language</label>
+                  <div className="flex flex-col space-y-4 max-w-8xl">
+                    <div className="flex items-center justify-between bg-[#fff1e5] border border-gray-200 rounded-3xl px-4 py-3">
+                      <span className="text-xs font-bold text-[#374151] font-heading">Language</span>
                       <select 
                         value={language} 
                         onChange={(e) => setLanguage(e.target.value)}
-                        className="w-full bg-[#F8F9FA] border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 outline-none focus:border-[#ff7800]"
+                        className="bg-transparent text-sm text-gray-800 outline-none font-medium cursor-pointer"
                       >
                         <option>English (US)</option>
                         <option>French</option>
@@ -224,12 +223,12 @@ export default function Account({ totalCartCount, onLogout }) {
                       </select>
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-bold text-[#374151] mb-1.5 font-heading">Currency</label>
+                    <div className="flex items-center justify-between bg-[#fff1e5] border border-gray-200 rounded-3xl px-4 py-3">
+                      <span className="text-xs font-bold text-[#374151] font-heading">Currency</span>
                       <select 
                         value={currency} 
                         onChange={(e) => setCurrency(e.target.value)}
-                        className="w-full bg-[#F8F9FA] border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 outline-none focus:border-[#ff7800]"
+                        className="bg-transparent text-sm text-gray-800 outline-none font-medium cursor-pointer"
                       >
                         <option>NGN (₦)</option>
                         <option>USD ($)</option>
@@ -237,12 +236,12 @@ export default function Account({ totalCartCount, onLogout }) {
                       </select>
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-bold text-[#374151] mb-1.5 font-heading">Dietary Preference</label>
+                    <div className="flex items-center justify-between bg-[#fff1e5] border border-gray-200 rounded-3xl px-4 py-3">
+                      <span className="text-xs font-bold text-[#374151] font-heading">Dietary Preference</span>
                       <select 
                         value={dietary} 
                         onChange={(e) => setDietary(e.target.value)}
-                        className="w-full bg-[#F8F9FA] border border-gray-200 rounded-xl px-4 py-3 text-sm text-gray-800 outline-none focus:border-[#ff7800]"
+                        className="bg-transparent text-sm text-gray-800 outline-none font-medium cursor-pointer"
                       >
                         <option>No restrictions</option>
                         <option>Halal</option>
@@ -251,15 +250,17 @@ export default function Account({ totalCartCount, onLogout }) {
                       </select>
                     </div>
                   </div>
+                </div>
 
-                  <div className="pt-4 border-t border-gray-100 flex justify-between items-center">
-                    <button 
-                      onClick={onLogout}
-                      className="text-red-600 hover:text-red-700 font-semibold text-sm transition-colors focus:outline-none"
-                    >
-                      Sign out
-                    </button>
-                  </div>
+                {/* Sign Out Button Outside Container on the Left with Exit Icon */}
+                <div className="pt-2">
+                  <button 
+                    onClick={onLogout}
+                    className="inline-flex items-center space-x-2 text-red-600 hover:text-red-700 font-bold text-sm transition-colors focus:outline-none"
+                  >
+                    <FiLogOut size={24} />
+                    <span>Sign out</span>
+                  </button>
                 </div>
 
               </div>
@@ -278,18 +279,18 @@ export default function Account({ totalCartCount, onLogout }) {
                       const newAddr = prompt("Enter new address (e.g., 789 Admiralty Way, Lekki):");
                       if (newAddr) setAddresses([...addresses, { id: Date.now(), type: "Other", address: newAddr }]);
                     }}
-                    className="inline-flex items-center space-x-1.5 bg-[#ff7800] hover:bg-[#e06a00] text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm"
+                    className="inline-flex items-center space-x-1.5 bg-white hover:bg-[#ff7800] text-black hover:text-white border border-[#d3cdc1] font-semibold text-xs px-6 py-2.5 rounded-3xl transition-all shadow-xl"
                   >
                     <FiPlus size={14} />
-                    <span>Add Address</span>
+                    <span>Add</span>
                   </button>
                 </div>
 
                 <div className="space-y-4">
                   {addresses.map((item) => (
-                    <div key={item.id} className="flex items-center justify-between p-4 rounded-2xl bg-[#F8F9FA] border border-gray-200/60 shadow-sm">
+                    <div key={item.id} className="flex items-center justify-between p-4 rounded-2xl bg-[#fbede1] border border-gray-200/60 shadow-sm">
                       <div className="flex items-center space-x-3.5">
-                        <div className="w-10 h-10 rounded-xl bg-orange-100 text-[#ff7800] flex items-center justify-center shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-[#fbede1] text-[#ff7800] flex items-center justify-center shrink-0">
                           <FiMapPin size={18} />
                         </div>
                         <div>
@@ -303,7 +304,7 @@ export default function Account({ totalCartCount, onLogout }) {
                         className="text-gray-400 hover:text-red-500 transition-colors p-2"
                         title="Delete address"
                       >
-                        <FiTrash2 size={16} />
+                        <FiTrash2 size={24} />
                       </button>
                     </div>
                   ))}
@@ -326,18 +327,18 @@ export default function Account({ totalCartCount, onLogout }) {
                   </h3>
                   <button 
                     onClick={() => alert("Card addition gateway opens here.")}
-                    className="inline-flex items-center space-x-1.5 bg-[#ff7800] hover:bg-[#e06a00] text-white font-semibold text-xs px-4 py-2.5 rounded-xl transition-all shadow-sm"
+                    className="inline-flex items-center space-x-1.5 bg-white hover:bg-[#ff7800] text-black hover:text-white border border-[#d3cdc1] font-semibold text-xs px-6 py-2.5 rounded-3xl transition-all shadow-xl"
                   >
                     <FiPlus size={14} />
-                    <span>Add Payment Method</span>
+                    <span>Add</span>
                   </button>
                 </div>
 
                 <div className="space-y-4">
                   {cards.map((card) => (
-                    <div key={card.id} className="flex items-center justify-between p-4 rounded-2xl bg-[#F8F9FA] border border-gray-200/60 shadow-sm">
+                    <div key={card.id} className="flex items-center justify-between p-4 rounded-2xl bg-[#fbede1] border border-gray-200/60 shadow-sm">
                       <div className="flex items-center space-x-3.5">
-                        <div className="w-12 h-10 rounded-xl bg-white border border-gray-200 text-gray-800 font-bold flex items-center justify-center shrink-0 text-xs shadow-xs">
+                        <div className="w-12 h-10 rounded-xl bg-[#ffd6b1] border border-gray-200 text-gray-800 font-bold flex items-center justify-center shrink-0 text-xs shadow-xs">
                           {card.brand}
                         </div>
                         <div>
@@ -351,7 +352,7 @@ export default function Account({ totalCartCount, onLogout }) {
                         className="text-gray-400 hover:text-red-500 transition-colors p-2"
                         title="Delete card"
                       >
-                        <FiTrash2 size={16} />
+                        <FiTrash2 size={24} />
                       </button>
                     </div>
                   ))}
@@ -440,7 +441,7 @@ export default function Account({ totalCartCount, onLogout }) {
                     Change Password
                   </h3>
 
-                  <form onSubmit={handleUpdatePassword} className="space-y-4 max-w-lg">
+                  <form onSubmit={handleUpdatePassword} className="space-y-4 max-w-2xl">
                     <div>
                       <label className="block text-xs font-bold text-[#374151] mb-1.5 font-heading">Current Password</label>
                       <input 
@@ -477,7 +478,7 @@ export default function Account({ totalCartCount, onLogout }) {
                     <div className="pt-2">
                       <button 
                         type="submit"
-                        className="bg-[#ff7800] hover:bg-[#e06a00] text-white font-bold px-6 py-3 rounded-xl transition-all shadow-md text-sm font-heading"
+                        className="bg-[#ff7800] hover:bg-[#e06a00] text-white font-bold px-20 py-3 rounded-xl transition-all shadow-md text-sm font-heading"
                       >
                         Update password
                       </button>
@@ -486,13 +487,13 @@ export default function Account({ totalCartCount, onLogout }) {
                 </div>
 
                 {/* Module 2: Two-Factor Authentication */}
-                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div className="bg-white rounded-3xl p-6 sm:p-8 border border-gray-100 shadow-sm flex flex-col items-start gap-4">
                   <div>
                     <h3 className="text-lg font-bold text-[#374151] font-heading mb-1">
                       Two-factor Authentication (2FA)
                     </h3>
-                    <p className="text-xs sm:text-sm text-gray-500 font-sans max-w-md">
-                      Protect your QuickBite account with an extra layer of security by requiring a verification code during sensitive logins.
+                    <p className="text-xs sm:text-sm text-gray-500 font-sans max-w-xl">
+                      Add an extra layer of security to your account.
                     </p>
                   </div>
 
@@ -501,10 +502,10 @@ export default function Account({ totalCartCount, onLogout }) {
                       setTwoFactorEnabled(!twoFactorEnabled);
                       alert(twoFactorEnabled ? "2FA disabled." : "2FA enabled successfully!");
                     }}
-                    className={`font-bold px-6 py-3 rounded-xl transition-all shadow-sm text-sm font-heading whitespace-nowrap ${
+                    className={`font-bold px-6 py-3 rounded-3xl transition-all shadow-sm text-sm font-heading border border-gray-300 ${
                       twoFactorEnabled 
-                        ? "bg-green-100 text-green-700 border border-green-300" 
-                        : "bg-[#ff7800] hover:bg-[#e06a00] text-white"
+                        ? "bg-green-100 text-green-700 border-green-300" 
+                        : "bg-white text-black hover:bg-gray-50"
                     }`}
                   >
                     {twoFactorEnabled ? "2FA Enabled ✓" : "Enable 2FA"}
@@ -514,6 +515,21 @@ export default function Account({ totalCartCount, onLogout }) {
               </div>
             )}
 
+          </div>
+
+          {/* Become a Vendor Promotion Card (Stacked vertically on left, with right arrow) */}
+          <div className="bg-[#fbede1] border border-[#d3cdc1] rounded-2xl mt-8 p-6 flex flex-col items-start gap-3 shadow-sm w-full max-w-8xl">
+            <div>
+              <p className="text-sm font-bold text-[#ff7800] font-heading mb-1">Personal Information</p>
+              <p className="text-xs text-gray-600 font-sans">Join Quickbite as a vendor and start receiving orders today</p>
+            </div>
+            <Link 
+              to="/vendors" 
+              className="inline-flex items-center space-x-1.5 bg-[#ff7800] hover:bg-[#e06a00] text-white font-semibold text-xs px-5 py-2.5 rounded-xl transition-all shadow-sm"
+            >
+              <span>Become a vendor</span>
+              <FiArrowRight size={14} />
+            </Link>
           </div>
 
         </div>
