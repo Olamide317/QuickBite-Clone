@@ -31,18 +31,18 @@ export default function Hero() {
                     </div>
 
                     {/* Main Headline */}
-                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-100 tracking-tight leading-tight mb-2">
+                    <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-100 tracking-tight leading-tight mb-2 animate-fadeIn">
                         Fast Delivery Of <br />
                         <span className="text-[#ff7800]">Your Favorite Meals</span>
                     </h1>
 
                     {/* Sub-headline description */}
-                    <p className="text-gray-200 lg:text-gray-400 text-sm sm:text-base max-w-lg mb-8">
+                    <p className="text-gray-200 lg:text-gray-400 text-sm sm:text-base max-w-lg mb-8 animate-fadeIn">
                         Order delicious meals from your favorite restaurants and get them delivered fast to your doorstep.
                     </p>
 
                     {/* Search and Location Bar (Call to Action) */}
-                    <div className="bg-white rounded-2xl p-2 shadow-xl flex flex-col sm:flex-row items-center gap-2 max-w-xl mb-8">
+                    <div className="bg-white rounded-2xl p-2 shadow-xl flex flex-col sm:flex-row items-center gap-2 max-w-xl mb-8 animate-fadeIn">
 
                         {/* Search Input Side */}
                         <div className="flex items-center space-x-3 px-3 py-1.5 w-full sm:w-1/2">

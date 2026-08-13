@@ -48,7 +48,7 @@ export default function Address() {
           {/* Motion cloud trails */}
           <div className="flex flex-col space-y-1 opacity-70">
             <span className="w-2 h-0.5 bg-white rounded-full"></span>
-            <span classame="w-3 h-0.5 bg-white rounded-full"></span>
+            <span className="w-3 h-0.5 bg-white rounded-full"></span>
             <span className="w-1.5 h-0.5 bg-white rounded-full"></span>
           </div>
 

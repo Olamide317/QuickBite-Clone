@@ -131,9 +131,9 @@ export default function Products({ cartItems, onAddToCart, onUpdateQuantity, onR
 
             </div>
 
-            {/* RIGHT COLUMN: Dynamic Order Summary Sidebar */}
+           {/* RIGHT COLUMN: Dynamic Order Summary Sidebar */}
             <div className="lg:col-span-6 sticky top-28">
-              <div className="max-h-[calc(100vh-140px)] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-300 flex flex-col space-y-4">
+              <div className="flex flex-col space-y-4">
 
                 {cartItems.length === 0 ? (
                   <div className="bg-white rounded-2xl py-8 px-6 border border-gray-100 shadow-sm flex flex-col items-center text-center justify-center min-h-[300px]">

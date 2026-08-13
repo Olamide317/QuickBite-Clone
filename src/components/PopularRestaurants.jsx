@@ -45,7 +45,7 @@ const restaurantsData = [
 export default function PopularRestaurants() {
   return (
     <section className="bg-[#F8F9FA] py-10 sm:py-14 px-4 sm:px-12">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto animate-fadeIn">
         
         {/* TOP FILTER BAR */}
         <div 
@@ -95,7 +95,7 @@ export default function PopularRestaurants() {
             <Link 
               key={index} 
               to={restaurant.path}
-              className="bg-white rounded-2xl p-3 border border-gray-200/70 shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col"
+              className="bg-white rounded-2xl p-3 border border-gray-200/70 shadow-sm hover:shadow-md transition-all duration-200 group flex flex-col animate-fadeIn"
             >
               <div className="relative w-full h-40 sm:h-44 rounded-xl overflow-hidden mb-3 bg-gray-100">
                 <img 

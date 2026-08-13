@@ -83,7 +83,7 @@ export default function Navbar() {
 
       {/* Mobile Dropdown Menu Drawer with Hover Effects */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-xl py-4 px-6 flex flex-col space-y-2 animate-fadeIn">
+        <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-xl py-4 px-6 flex flex-col space-y-2 animate-fadeIn transform-gpu transition-transform duration-300 ease-out">
           {[
             { name: "Home", path: "/" },
             { name: "Restaurants", path: "/restaurants" },

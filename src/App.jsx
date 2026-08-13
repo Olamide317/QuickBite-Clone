@@ -127,7 +127,7 @@ function App() {
               path="/cart"
               element={
                 <Cart
-                  isLoggedIn={isLoggedIn}
+                  isLoggedIn={isLoggedIn} // <-- Pass isLoggedIn prop here
                   cartItems={cartItems}
                   onUpdateQuantity={handleUpdateQuantity}
                   onRemoveItem={handleRemoveItem}

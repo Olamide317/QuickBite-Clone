@@ -114,12 +114,23 @@ export default function Order({ cartItems, onUpdateQuantity, onRemoveItem, onCle
 
       {/* 5. PRIMARY CALL TO ACTION BUTTONS */}
       <div className="flex flex-col space-y-2">
-        <Link to="/cart" className="w-full bg-[#ff7800] hover:bg-[#e06a00] text-white font-semibold py-2.5 rounded-lg transition-all shadow-sm text-xs sm:text-sm font-heading text-center">
+        
+        {/* View Cart Button linking to /cart */}
+        <Link 
+          to="/cart" 
+          className="w-full bg-[#ff7800] hover:bg-[#e06a00] text-white font-semibold py-2.5 rounded-lg transition-transform transform-gpu hover:-translate-y-0.5 shadow-sm text-xs sm:text-sm font-heading text-center block"
+        >
           View Cart ({totalQuantity})
         </Link>
-        <Link to="/checkout" className="w-full bg-orange-50 hover:bg-orange-100 text-[#ff7800] border border-[#ff7800]/30 font-semibold py-2.5 rounded-lg transition-all text-xs sm:text-sm font-heading text-center">
+
+        {/* Order Now Button linking to /checkout */}
+        <Link 
+          to="/checkout" 
+          className="w-full bg-orange-50 hover:bg-orange-100 text-[#ff7800] border border-[#ff7800]/30 font-semibold py-2.5 rounded-lg transition-transform transform-gpu hover:-translate-y-0.5 text-xs sm:text-sm font-heading text-center block"
+        >
           Order Now
         </Link>
+
       </div>
 
     </div>

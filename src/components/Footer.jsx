@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer className="bg-[#fafafa] text-gray-600 pt-12 pb-16 px-6 mt-auto">
+    <footer className="bg-[#fafafa] text-gray-600 pt-12 pb-16 px-6 mt-auto animate-fadeIn">
       <div className="max-w-6xl mx-auto flex flex-col items-center text-center">
 
         {/* TOP SECTION: Navbar-matching Logo + Split Name */}

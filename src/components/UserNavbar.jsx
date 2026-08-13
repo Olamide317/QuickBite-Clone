@@ -110,7 +110,7 @@ export default function UserNavbar({ cartCount = 0, onLogout }) {
             </button>
 
             {dropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50 animate-fadeIn">
+              <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-xl py-2 z-50 animate-slideUp transform-gpu">
                 <Link
                   to="/profile"
                   onClick={handleLinkClick}
