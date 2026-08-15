@@ -12,7 +12,7 @@ export default function Home() {
       <Categories />
       <PopularRestaurants />
       <PromoSection />
-      <AllRestaurants />
+      {/* <AllRestaurants /> */}
       <How />
     </div>
   );
