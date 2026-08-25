@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FiPackage, FiArrowRight } from "react-icons/fi";
+import Navbar from "../components/Navbar";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { IoClose } from "react-icons/io5";
 
@@ -11,39 +12,8 @@ export default function TrackOrderGuest() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] sm:bg-[#F8F9FA] flex flex-col justify-between font-sans">
       
-      {/* TOP NAVIGATION */}
-      <header className="bg-white/90 backdrop-blur-md shadow-xs border-b border-gray-200/60 px-6 sm:px-8 py-4 sticky top-0 z-50">
-        <div className="max-w-md mx-auto sm:max-w-7xl flex justify-between items-center">
-          
-          {/* QuickBite Logo */}
-          <Link to="/" className="flex items-center space-x-2.5 group">
-            <span className="text-2xl">🍔</span>
-            <span className="text-xl font-bold tracking-tight font-heading">
-              <span style={{ color: "#ff7800" }}>Quick</span>
-              <span className="text-[#2B2D42]">Bite</span>
-            </span>
-          </Link>
-
-          {/* Hamburger Menu Icon */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="text-gray-800 text-2xl focus:outline-none p-1"
-            aria-label="Toggle Menu"
-          >
-            {menuOpen ? <IoClose /> : <HiMenuAlt3 />}
-          </button>
-
-        </div>
-
-        {/* Mobile Dropdown Menu if toggled */}
-        {menuOpen && (
-          <div className="absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-xl py-4 px-6 flex flex-col space-y-3 sm:hidden animate-fadeIn">
-            <Link to="/" onClick={() => setMenuOpen(false)} className="font-medium text-gray-700 py-2">Home</Link>
-            <Link to="/restaurants" onClick={() => setMenuOpen(false)} className="font-medium text-gray-700 py-2">Restaurants</Link>
-            <Link to="/signup" onClick={() => setMenuOpen(false)} className="font-medium text-[#ff7800] py-2">Sign Up</Link>
-          </div>
-        )}
-      </header>
+      {/* Standard Public Navbar Component */}
+      <Navbar />
 
       {/* HERO CONTENT CONTAINER (Mobile-first centered onboarding modal style) */}
       <main className="flex-grow flex items-center justify-center px-4 py-8 sm:py-12">
