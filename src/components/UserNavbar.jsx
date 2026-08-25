@@ -1,6 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { HiMenuAlt3, HiOutlineShoppingBag, HiChevronDown } from "react-icons/hi";
+import {
+  HiMenuAlt3,
+  HiOutlineShoppingBag,
+  HiChevronDown,
+} from "react-icons/hi";
 import { HiOutlineWallet } from "react-icons/hi2";
 import { IoClose } from "react-icons/io5";
 
@@ -30,17 +34,20 @@ export default function UserNavbar({ cartCount = 0, onLogout }) {
   return (
     <nav className="bg-[#fafafa]/90 backdrop-blur-md shadow-sm border-b border-gray-200/60 px-6 sm:px-8 py-4 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-
         {/* Left Side: Burger Logo + Split Name */}
-        <Link to="/" onClick={handleLinkClick} className="flex items-center space-x-3 group">
+        <Link
+          to="/"
+          onClick={handleLinkClick}
+          className="flex items-center space-x-3 group"
+        >
           <span className="text-3xl">🍔</span>
           <span className="text-2xl font-extrabold tracking-tight font-heading">
             <span style={{ color: "#ff7800" }}>Quick</span>Bite
           </span>
         </Link>
 
-        {/* Middle Links (Desktop View) */}
-        <div className="hidden md:flex space-x-8">
+        {/* Middle Links (Desktop View - visible on xl screens and up) */}
+        <div className="hidden xl:flex space-x-8">
           {[
             { name: "Home", path: "/" },
             { name: "Restaurants", path: "/restaurants" },
@@ -51,22 +58,23 @@ export default function UserNavbar({ cartCount = 0, onLogout }) {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative py-1 font-medium transition-colors duration-200 group ${active ? "text-[#ff7800]" : "text-black hover:text-[#ff7800]"
-                  }`}
+                className={`relative py-1 font-medium transition-colors duration-200 group ${
+                  active ? "text-[#ff7800]" : "text-black hover:text-[#ff7800]"
+                }`}
               >
                 {item.name}
                 <span
-                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-[#ff7800] transition-transform duration-300 origin-left ${active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-                    }`}
+                  className={`absolute bottom-0 left-0 w-full h-[2px] bg-[#ff7800] transition-transform duration-300 origin-left ${
+                    active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+                  }`}
                 />
               </Link>
             );
           })}
         </div>
 
-        {/* Right Side Utility Navigation Widget (Desktop View) */}
-        <div className="hidden md:flex items-center space-x-4">
-
+        {/* Right Side Utility Navigation Widget (Visible on xl screens and up) */}
+        <div className="hidden xl:flex items-center space-x-4">
           {/* 1. Wallet Balance Badge */}
           <Link
             to="/wallet"
@@ -106,7 +114,10 @@ export default function UserNavbar({ cartCount = 0, onLogout }) {
                 alt="User Avatar"
                 className="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm"
               />
-              <HiChevronDown size={14} className={`text-[#3A414D] transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`} />
+              <HiChevronDown
+                size={14}
+                className={`text-[#3A414D] transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+              />
             </button>
 
             {dropdownOpen && (
@@ -138,12 +149,15 @@ export default function UserNavbar({ cartCount = 0, onLogout }) {
               </div>
             )}
           </div>
-
         </div>
 
-        {/* Mobile Controls */}
-        <div className="flex items-center space-x-3 md:hidden">
-          <Link to="/wallet" className="flex items-center space-x-1 bg-gray-100 text-[#3A414D] px-2.5 py-1 rounded-full text-xs font-bold">
+        {/* Mobile / Tablet Controls (Visible on screens less than xl) */}
+        <div className="flex items-center space-x-3 xl:hidden">
+          {/* Wallet Balance Badge hidden on md and below, visible on md to xl */}
+          <Link
+            to="/wallet"
+            className="hidden md:flex items-center space-x-1 bg-gray-100 text-[#3A414D] px-2.5 py-1 rounded-full text-xs font-bold"
+          >
             <HiOutlineWallet size={14} />
             <span>₦0.00</span>
           </Link>
@@ -165,12 +179,11 @@ export default function UserNavbar({ cartCount = 0, onLogout }) {
             {isOpen ? <IoClose /> : <HiMenuAlt3 />}
           </button>
         </div>
-
       </div>
 
-      {/* Mobile Dropdown Menu Drawer */}
+      {/* Mobile / Tablet Dropdown Menu Drawer (Visible on screens less than xl) */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-xl py-4 px-6 flex flex-col space-y-2 animate-fadeIn">
+        <div className="xl:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-xl py-4 px-6 flex flex-col space-y-2 animate-fadeIn">
           {[
             { name: "Home", path: "/" },
             { name: "Restaurants", path: "/restaurants" },

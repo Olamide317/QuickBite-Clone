@@ -262,10 +262,7 @@ export default function Auth({ setIsLoggedIn }) {
 
         </div>
       </main>
-
-      {/* Footer */}
-      <Footer />
-
+      
     </div>
   );
 }
