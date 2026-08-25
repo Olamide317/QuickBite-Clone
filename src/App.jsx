@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 import OTP from "./pages/OTP";
 import Account from "./pages/Account";
 import Wallet from "./pages/Wallet";
+import TrackOrderGuest from "./pages/TrackOrderGuest"
 import ScrollToTop from "./components/ScrollToTop";
 
 function App() {
@@ -155,7 +156,7 @@ function App() {
               }
             />
 
-            {/* Track Order Page (Guarded: redirects to /login if not signed in) */}
+            {/* Track Order Page (Guests see Onboarding, Logged-in users see Live Tracking) */}
             <Route
               path="/track-order"
               element={
@@ -166,7 +167,7 @@ function App() {
                     <Footer />
                   </>
                 ) : (
-                  <Navigate to="/login" replace />
+                  <TrackOrderGuest />
                 )
               }
             />

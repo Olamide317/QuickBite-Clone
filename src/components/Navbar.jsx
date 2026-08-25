@@ -16,17 +16,20 @@ export default function Navbar() {
   return (
     <nav className="bg-[#fafafa]/90 backdrop-blur-md shadow-sm border-b border-gray-200/60 px-6 sm:px-8 py-4 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        
         {/* Left Side: Burger Logo + Split Name */}
-        <Link to="/" onClick={handleLinkClick} className="flex items-center space-x-3 group">
+        <Link
+          to="/"
+          onClick={handleLinkClick}
+          className="flex items-center space-x-3 group"
+        >
           <span className="text-3xl">🍔</span>
           <span className="text-2xl font-extrabold tracking-tight font-heading">
             <span style={{ color: "#ff7800" }}>Quick</span>Bite
           </span>
         </Link>
 
-        {/* Middle Links (Desktop) */}
-        <div className="hidden md:flex space-x-8">
+        {/* Middle Links (Visible on Large screens and up) */}
+        <div className="hidden lg:flex space-x-8">
           {[
             { name: "Home", path: "/" },
             { name: "Restaurants", path: "/restaurants" },
@@ -52,17 +55,17 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Right Side Actions (Desktop) */}
-        <div className="hidden md:flex items-center space-x-6">
-          <Link 
-            to="/#" 
+        {/* Right Side Actions (Visible on Large screens and up, Log In link removed) */}
+        <div className="hidden lg:flex items-center space-x-6">
+          <Link
+            to="/vendors"
             className="text-gray-700 font-medium transition-colors duration-200 hover:text-[#ff7800]"
           >
             For Vendors
           </Link>
 
-          <Link 
-            to="/signup" 
+          <Link
+            to="/signup"
             className="text-white px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 hover:shadow-lg hover:brightness-110 active:scale-95 shadow-sm"
             style={{ backgroundColor: "#ff7800" }}
           >
@@ -70,20 +73,19 @@ export default function Navbar() {
           </Link>
         </div>
 
-        {/* Mobile Hamburger Toggle Button */}
+        {/* Mobile Hamburger Toggle Button (Shows on screens smaller than lg) */}
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-gray-800 text-3xl focus:outline-none p-1 transition-transform active:scale-90"
+          className="lg:hidden text-gray-800 text-3xl focus:outline-none p-1 transition-transform active:scale-90"
           aria-label="Toggle Menu"
         >
           {isOpen ? <IoClose /> : <HiMenuAlt3 />}
         </button>
-
       </div>
 
-      {/* Mobile Dropdown Menu Drawer with Hover Effects */}
+      {/* Mobile Dropdown Menu Drawer (Shows on screens smaller than lg) */}
       {isOpen && (
-        <div className="md:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-xl py-4 px-6 flex flex-col space-y-2 animate-fadeIn transform-gpu transition-transform duration-300 ease-out">
+        <div className="lg:hidden absolute top-full left-0 w-full bg-white border-b border-gray-200 shadow-xl py-4 px-6 flex flex-col space-y-2 animate-fadeIn transform-gpu transition-transform duration-300 ease-out">
           {[
             { name: "Home", path: "/" },
             { name: "Restaurants", path: "/restaurants" },
@@ -97,7 +99,9 @@ export default function Navbar() {
                 to={item.path}
                 onClick={handleLinkClick}
                 className={`font-medium py-2.5 px-3 rounded-xl transition-all duration-200 hover:text-[#ff7800] hover:bg-orange-50/60 hover:pl-4 ${
-                  active ? "text-[#ff7800] font-bold bg-orange-50/40" : "text-gray-700"
+                  active
+                    ? "text-[#ff7800] font-bold bg-orange-50/40"
+                    : "text-gray-700"
                 }`}
               >
                 {item.name}
@@ -105,7 +109,7 @@ export default function Navbar() {
             );
           })}
 
-          <div className="pt-3 pb-1">
+          <div className="pt-3 pb-1 flex flex-col space-y-2">
             <Link
               to="/signup"
               onClick={handleLinkClick}

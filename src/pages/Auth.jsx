@@ -5,7 +5,7 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 
 export default function Auth({ setIsLoggedIn }) {
-  const [isSignup, setIsSignup] = useState(true); // Default to Sign Up as per prompt
+  const [isSignup] = useState(true); // Default to Sign Up as per prompt
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -172,7 +172,7 @@ export default function Auth({ setIsLoggedIn }) {
               {isSignup ? "Already have an account? " : "Don't have an account? "}
             </span>
             <button
-              onClick={() => setIsSignup(!isSignup)}
+              onClick={() => navigate(isSignup ? "/login" : "/signup")}
               className="font-bold text-[#ff7800] hover:underline focus:outline-none"
             >
               {isSignup ? "Sign in" : "Sign up"}
